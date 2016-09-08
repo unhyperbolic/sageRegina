@@ -52,7 +52,7 @@ regina_hash      = '4567544'
 regina_uri       = 'http://git.code.sf.net/u/matthiasgoerner/regina'
 regina_dir       = 'regina_%s' % regina_hash
 
-import glob, os
+import glob, os, sys
 
 # Some of this is copied from SnapPy
 
@@ -361,6 +361,57 @@ class package_assemble(CompoundCommand):
         'package_extras'
         ]
 
+version_name = 'sageRegina-%s' % version
+
+class package_tar(SystemCommand):
+    if 'linux' in sys.platform:
+        transform_op = '--transform '
+    else:
+        # Mac
+        transform_op = '-'
+        
+    system_commands = [
+        ('COPYFILE_DISABLE=1 '
+         'tar -cjf %s.tar.bz2 '
+         '%ss/./%s/ '
+         '--exclude "*.tar.*" '
+         '--exclude ".git" '
+         '--exclude "*~" '
+         '--exclude "dist" '
+         '--exclude "build" '
+         '.') % (version_name, transform_op, version_name)
+        ]
+
+class package(CompoundCommand):
+    commands = [
+        'package_assemble',
+        'package_tar'
+        ]
+
+cmdclass = {
+    'package_download_boost' : package_download_boost,
+    'package_download_tokyocabinet' : package_download_tokyocabinet,
+    'package_download_libxml' : package_download_libxml,
+    'package_download' : package_download,
+    'package_untar_boost' : package_untar_boost,
+    'package_untar_tokyocabinet' : package_untar_tokyocabinet,
+    'package_untar_libxml' : package_untar_libxml,
+    'package_untar' : package_untar,
+    'package_clone_regina' : package_clone_regina,
+    'package_fetch_regina' : package_fetch_regina,
+    'package_checkout_regina' : package_checkout_regina,
+    'package_retrieve_boost': package_retrieve_boost,
+    'package_retrieve_tokyocabinet': package_retrieve_tokyocabinet,
+    'package_retrieve_libxml': package_retrieve_libxml,
+    'package_retrieve_regina': package_retrieve_regina,
+    'package_retrieve': package_retrieve,
+    'package_extras_regina' : package_extras_regina,
+    'package_extras_libxml' : package_extras_libxml,
+    'package_extras' : package_extras,
+    'package_assemble' : package_assemble,
+    'package_tar' : package_tar,
+    'package' : package}
+
 setup(name = 'sageRegina',
       version = version,
       zip_safe = False,
@@ -384,24 +435,4 @@ setup(name = 'sageRegina',
       },
       ext_modules = [ regina_extension ],
       libraries = libraries,
-      cmdclass = {
-        'package_download_boost' : package_download_boost,
-        'package_download_tokyocabinet' : package_download_tokyocabinet,
-        'package_download_libxml' : package_download_libxml,
-        'package_download' : package_download,
-        'package_untar_boost' : package_untar_boost,
-        'package_untar_tokyocabinet' : package_untar_tokyocabinet,
-        'package_untar_libxml' : package_untar_libxml,
-        'package_untar' : package_untar,
-        'package_clone_regina' : package_clone_regina,
-        'package_fetch_regina' : package_fetch_regina,
-        'package_checkout_regina' : package_checkout_regina,
-        'package_retrieve_boost': package_retrieve_boost,
-        'package_retrieve_tokyocabinet': package_retrieve_tokyocabinet,
-        'package_retrieve_libxml': package_retrieve_libxml,
-        'package_retrieve_regina': package_retrieve_regina,
-        'package_retrieve': package_retrieve,
-        'package_extras_regina' : package_extras_regina,
-        'package_extras_libxml' : package_extras_libxml,
-        'package_extras' : package_extras,
-        'package_assemble' : package_assemble})
+      cmdclass = cmdclass)
