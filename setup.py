@@ -40,13 +40,17 @@
 # Get version from version.py
 exec(open('extras/sageRegina/version.py').read())
 
-boost_dir        = 'boost_1_59_0'
-tokyocabinet_dir = 'tokyocabinet-1.4.48'
-libxml_dir       = 'libxml2-2.9.3'
+boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_59_0.tar.bz2'
+boost_dir         = 'boost_1_59_0'
+tokyocabinet_uri  = 'http://sageRegina.unhyperbolic.org/sources/tokyocabinet-1.4.48.tar.gz'
+tokyocabinet_dir  = 'tokyocabinet-1.4.48'
+libxml_uri        = 'http://sageRegina.unhyperbolic.org/sources/libxml2-2.9.3.tar.gz'
+libxml_dir        = 'libxml2-2.9.3'
 
 # hash of commit at which regina was checked out
-# From https://sourceforge.net/u/matthiasgoerner/regina/ci/master/tree/
-regina_dir       = 'regina_4567544'
+regina_hash      = '4567544'
+regina_uri       = 'http://git.code.sf.net/u/matthiasgoerner/regina'
+regina_dir       = 'regina_%s' % regina_hash
 
 import glob, os
 
@@ -58,7 +62,7 @@ from setuptools import distutils
 
 from distutils import sysconfig, log
 from distutils.core import Extension
-from setuptools import setup
+from setuptools import setup, Command
 
 def recursive_glob(path, extension, depth = 0, predicate = None):
     """
@@ -76,8 +80,8 @@ def recursive_glob(path, extension, depth = 0, predicate = None):
         return [ file_path for file_path in result
                  if predicate(file_path) ]
 
-    if not result:
-        raise Exception("No files to compile found. Something is wrong.")
+    #if not result:
+    #    raise Exception("No files to compile found. Something is wrong.")
 
     return result
 
@@ -241,6 +245,122 @@ def my_build_libraries(self, libraries):
 
 build_clib.build_clib.build_libraries = my_build_libraries
 
+class SystemCommand(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        for cmd in self.system_commands:
+            if os.system(cmd):
+                raise Exception("When executing %s" % cmd)
+
+class CompoundCommand(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        for cmd in self.commands:
+            self.run_command(cmd)
+
+class package_download_boost(SystemCommand):
+    system_commands = ['cd /tmp; curl -O %s' % boost_uri]
+
+class package_download_tokyocabinet(SystemCommand):
+    system_commands = ['cd /tmp; curl -O %s' % tokyocabinet_uri]
+
+class package_download_libxml(SystemCommand):
+    system_commands = ['cd /tmp; curl -O %s' % libxml_uri]
+    
+class package_download(CompoundCommand):
+    commands = [
+        'package_download_boost',
+        'package_download_tokyocabinet',
+        'package_download_libxml'
+        ]
+
+class package_untar_boost(SystemCommand):
+    system_commands = ['tar -xjf /tmp/%s' % boost_uri.split('/')[-1]]
+
+class package_untar_tokyocabinet(SystemCommand):
+    system_commands = ['tar -xzf /tmp/%s' % tokyocabinet_uri.split('/')[-1]]
+
+class package_untar_libxml(SystemCommand):
+    system_commands = ['tar -xzf /tmp/%s' % libxml_uri.split('/')[-1]]
+
+class package_untar(CompoundCommand):
+    commands = [
+        'package_untar_boost',
+        'package_untar_tokyocabinet',
+        'package_untar_libxml'
+        ]
+
+class package_clone_regina(SystemCommand):
+    system_commands = ['git clone %s regina_cloned' % (regina_uri)]
+
+class package_fetch_regina(SystemCommand):
+    system_commands = ['cd regina_*; git fetch']
+
+class package_checkout_regina(SystemCommand):
+    system_commands = [
+        'mv regina_* regina_0000000',
+        'cd regina_0000000; git checkout %s' % regina_hash,
+        'mv regina_0000000 %s' % regina_dir
+        ]
+
+class package_retrieve_boost(CompoundCommand):
+    commands = [
+        'package_download_boost',
+        'package_untar_boost'
+        ]
+
+class package_retrieve_tokyocabinet(CompoundCommand):
+    commands = [
+        'package_download_tokyocabinet',
+        'package_untar_tokyocabinet'
+        ]
+
+class package_retrieve_libxml(CompoundCommand):
+    commands = [
+        'package_download_libxml',
+        'package_untar_libxml'
+        ]
+
+class package_retrieve_regina(CompoundCommand):
+    commands = [
+        'package_clone_regina',
+        'package_checkout_regina'
+        ]
+
+class package_retrieve(CompoundCommand):
+    commands = [
+        'package_retrieve_boost',
+        'package_retrieve_tokyocabinet',
+        'package_retrieve_libxml',
+        'package_retrieve_regina'
+        ]
+
+class package_extras_libxml(SystemCommand):
+    system_commands = ['cp -r extras/libxml/* %s' % libxml_dir]
+
+class package_extras_regina(SystemCommand):
+    system_commands = ['cp -r extras/regina/* %s' % regina_dir]
+
+class package_extras(CompoundCommand):
+    commands = [
+        'package_extras_libxml',
+        'package_extras_regina'
+        ]
+
+class package_assemble(CompoundCommand):
+    commands = [
+        'package_retrieve',
+        'package_extras'
+        ]
+
 setup(name = 'sageRegina',
       version = version,
       zip_safe = False,
@@ -263,4 +383,25 @@ setup(name = 'sageRegina',
           'regina/sageRegina/testsuite' : ['*.*']
       },
       ext_modules = [ regina_extension ],
-      libraries = libraries)
+      libraries = libraries,
+      cmdclass = {
+        'package_download_boost' : package_download_boost,
+        'package_download_tokyocabinet' : package_download_tokyocabinet,
+        'package_download_libxml' : package_download_libxml,
+        'package_download' : package_download,
+        'package_untar_boost' : package_untar_boost,
+        'package_untar_tokyocabinet' : package_untar_tokyocabinet,
+        'package_untar_libxml' : package_untar_libxml,
+        'package_untar' : package_untar,
+        'package_clone_regina' : package_clone_regina,
+        'package_fetch_regina' : package_fetch_regina,
+        'package_checkout_regina' : package_checkout_regina,
+        'package_retrieve_boost': package_retrieve_boost,
+        'package_retrieve_tokyocabinet': package_retrieve_tokyocabinet,
+        'package_retrieve_libxml': package_retrieve_libxml,
+        'package_retrieve_regina': package_retrieve_regina,
+        'package_retrieve': package_retrieve,
+        'package_extras_regina' : package_extras_regina,
+        'package_extras_libxml' : package_extras_libxml,
+        'package_extras' : package_extras,
+        'package_assemble' : package_assemble})
