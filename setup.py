@@ -1,37 +1,16 @@
 #!/usr/bin/env python
 
-# A packaging of Regina that allows easy installation using python's setuptools
+# A packaging of Regina that allows easy installation using python's pip, see
+# http://sageRegina.unhyperbolic.org/ for more information.
 #
-# This has been tested under
-#   * python on Ubuntu 15.10
-#   * sage-6.10 installed from binary on Ubuntu 15.10
-#   * sage-6.7 installed from binary on Mac OS 10.9.5 and XCode 6.2 (6C131e)
-#   * sage-6.9 installed from source on ancient Fedora with g++ 5.2.1
-#
-#
-# Matthias Goerner, 02/12/2016
+# Matthias Goerner, 09/24/2016
 # enischte@gmail.com
-
-# Notes:
 #
-# To copy the config_headers do, e.g.,
-#    cp -r extras/regina/* regina_04521df/
-#
-# When tar'ing on Mac, it stores the ACLs as well and that screws things over
-# ...
-# See http://apple.stackexchange.com/questions/75989/why-does-osx-add-extra-filename-when-i-tar-a-directory
-# COPYFILE_DISABLE=1 might fix this - haven't tested it yet
-# tar --disable-copyfile
-# BSD untar is incompatible
-#
-# Idea: tar supports exclude patterns
-# Idea: write packager that automatically downloads boost, ... unpacks it
-# copies files over...
+# Run "python setup.py package" and it will automatically download all the
+# necessary sources and create a tar ball suitable for pip.
 #
 # Needed downgrade from boost 1.60 to boost 1.59 to not have
 # missing to_python converter for NContainer.getFirstTreeChild()
-#
-# int128 could be configured purely through boost, no need to go through cmake
 #
 # Error when GMP <= 5.1.3 and gcc >= 4.9:
 # '::max_align_t' has not been declared
