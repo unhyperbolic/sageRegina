@@ -9,8 +9,7 @@
 # Run "python setup.py package" and it will automatically download all the
 # necessary sources and create a tar ball suitable for pip.
 #
-# TODO: automatically generate PKG-INFO
-# So that we can upload with "twine register -r pypi sageRegina-...tar.bz2"
+# We can upload with "twine register -r pypi sageRegina-...tar.gz"
 # and "twine upload ..."
 #
 # Needed downgrade from boost 1.60 to boost 1.59 to not have
@@ -327,10 +326,23 @@ class package_extras(CompoundCommand):
         'package_extras_regina'
         ]
 
+class package_move_info(SystemCommand):
+    system_commands = [
+        'mv sageRegina.egg-info/PKG-INFO .',
+        'rm -rf sageRegina.egg-info'
+        ]
+
+class package_info(CompoundCommand):
+    commands = [
+        'egg_info',
+        'package_move_info'
+        ]
+
 class package_assemble(CompoundCommand):
     commands = [
         'package_retrieve',
-        'package_extras'
+        'package_extras',
+        'package_info'
         ]
 
 version_name = 'sageRegina-%s' % version
@@ -381,6 +393,8 @@ cmdclass = {
     'package_extras_regina' : package_extras_regina,
     'package_extras_libxml' : package_extras_libxml,
     'package_extras' : package_extras,
+    'package_move_info' : package_move_info,
+    'package_info' : package_info,
     'package_assemble' : package_assemble,
     'package_tar' : package_tar,
     'package' : package}
