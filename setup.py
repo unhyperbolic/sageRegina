@@ -9,6 +9,10 @@
 # Run "python setup.py package" and it will automatically download all the
 # necessary sources and create a tar ball suitable for pip.
 #
+# TODO: automatically generate PKG-INFO
+# So that we can upload with "twine register -r pypi sageRegina-...tar.bz2"
+# and "twine upload ..."
+#
 # Needed downgrade from boost 1.60 to boost 1.59 to not have
 # missing to_python converter for NContainer.getFirstTreeChild()
 #
@@ -340,7 +344,7 @@ class package_tar(SystemCommand):
         
     system_commands = [
         ('COPYFILE_DISABLE=1 '
-         'tar -cjf %s.tar.bz2 '
+         'tar -czf %s.tar.gz '
          '%ss/./%s/ '
          '--exclude "*.tar.*" '
          '--exclude ".git" '
@@ -384,10 +388,12 @@ cmdclass = {
 setup(name = 'sageRegina',
       version = version,
       zip_safe = False,
-      description = 'Regina',
-      author = 'Benjamin Burton',
-      author_email = 'bab@maths.uq.edu.au',
+      description = 'Regina for SageMath',
+      keywords = 'triangulations, topology',
+      author = 'Matthias Goerner',
+      author_email = 'enischte@gmail.com',
       url = 'http://sageRegina.unhyperbolic.org/',
+      license='GPLv2+',
       packages = [
           'regina',
           'regina/sageRegina',
