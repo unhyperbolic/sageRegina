@@ -6,7 +6,7 @@ libxml_uri        = 'http://sageRegina.unhyperbolic.org/sources/libxml2-2.9.3.ta
 libxml_dir        = 'libxml2-2.9.3'
 
 # hash of commit at which regina was checked out
-# 639b916 is the regina 5.0 release candidate
-regina_hash      = '639b916'
+# ef62187 is the regina 5.0 release candidate
+regina_hash      = 'ef62187'
 regina_uri       = 'http://git.code.sf.net/p/regina/git'
 regina_dir       = 'regina_%s' % regina_hash
