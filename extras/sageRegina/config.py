@@ -8,5 +8,5 @@ libxml_dir        = 'libxml2-2.9.3'
 # hash of commit at which regina was checked out
 # ef62187 is the regina 5.0 release candidate
 regina_hash      = 'ef62187'
-regina_uri       = 'http://git.code.sf.net/p/regina/git'
+regina_uri       = 'https://github.com/regina-normal/regina.git'
 regina_dir       = 'regina_%s' % regina_hash
