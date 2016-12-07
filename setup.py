@@ -124,6 +124,11 @@ def regina_predicate(file_path):
     library_path, file_name = os.path.split(file_path)
     library_name = os.path.basename(library_path)
 
+    if 'syntax/' in file_path:
+        # Syntax is only used by UI and sageRegina doesn't support UI (yet?)
+        # Excluding it so that we don't need to pull in jansson
+        return False
+
     if library_name == 'libnormaliz':
         # Normaliz needs special behavior.
         # libnormaliz-templated includes other .cpp files in that

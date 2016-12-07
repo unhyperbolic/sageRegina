@@ -1,3 +1,3 @@
-version = '5.0+1'
-release_date = 'September 24, 2016'
+version = 'fd928be'
+release_date = 'December 6, 2016'
 
