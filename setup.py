@@ -129,6 +129,9 @@ def regina_predicate(file_path):
         # Excluding it so that we don't need to pull in jansson
         return False
 
+    if library_name == 'unused':
+        return False
+
     if library_name == 'libnormaliz':
         # Normaliz needs special behavior.
         # libnormaliz-templated includes other .cpp files in that
@@ -154,11 +157,11 @@ def library_include_dirs(libraries):
 regina_extension = Extension(
     'regina.engine',
     sources = (
-        recursive_glob(regina_dir + '/engine', 'cpp', depth = 1,
+        recursive_glob(regina_dir + '/engine', 'cpp', depth = 2,
                        predicate = regina_predicate) +
         # Needed to be renamed .cpp for it to work
-        recursive_glob(regina_dir + '/engine/snappea/kernel', 'cpp') +
-        recursive_glob(regina_dir + '/engine/snappea/snappy', 'cpp') +
+#        recursive_glob(regina_dir + '/engine/snappea/kernel', 'cpp') +
+#        recursive_glob(regina_dir + '/engine/snappea/snappy', 'cpp') +
         recursive_glob(regina_dir + '/python', 'cpp', depth = 1)),
     include_dirs = [
             regina_dir + '/engine',

@@ -1,3 +1,3 @@
-version = '8582186'
-release_date = 'December 6, 2016'
+version = '5.1'
+release_date = 'December 19, 2016'
 
