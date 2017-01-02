@@ -12,6 +12,9 @@
 # We can upload with "twine register -r pypi sageRegina-...tar.gz"
 # and "twine upload ..."
 #
+# TODO: extras/regina/engine/regina-config.h still needs to be updated
+# manually to reflect REGINA/SNAPPY version.
+# 
 # Needed downgrade from boost 1.60 to boost 1.59 to not have
 # missing to_python converter for NContainer.getFirstTreeChild()
 #
