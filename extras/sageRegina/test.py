@@ -78,7 +78,7 @@ def runTest(testName, testFile):
                 tofile = 'OUTPUT'))
 
     if exception:
-        failed += "Raised exception: %s" % exception
+        failed += "Raised exception: %s" % (exception,)
 
     return failed
 
