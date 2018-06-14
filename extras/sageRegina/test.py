@@ -69,7 +69,7 @@ def runTest(testName, testFile):
         baseline = '\n'.join(baseline.split('\n')[:-2])
                            
     if output != baseline:
-        failed += "Difference between baseline and putput:\n"
+        failed += "Difference between baseline and output:\n"
         failed += '\n'.join(
             difflib.context_diff(
                 baseline.split('\n'),
