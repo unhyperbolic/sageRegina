@@ -410,11 +410,33 @@ cmdclass = {
     'package_tar' : package_tar,
     'package' : package}
 
+long_description = """
+sageRegina is a packaging of the triangulation software 
+`regina <https://regina-normal.github.io/>`_  for easy installation in
+`sage <http://www.sagemath.org/>`_.
+
+Further documentation about sageRegina is available at the 
+`main page <http://sageregina.unhyperbolic.org/>`_.
+"""
+
+
 setup(name = 'sageRegina',
       version = version,
       zip_safe = False,
       description = 'Regina for SageMath',
+      long_description = long_description,
       keywords = 'triangulations, topology',
+      classifiers = [
+           'Development Status :: 5 - Production/Stable',
+           'Intended Audience :: Science/Research',
+           'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
+           'Operating System :: Linux, MacOS X',
+           'Programming Language :: C',
+           'Programming Language :: C++', 
+           'Programming Language :: Python',
+           'Programming Language :: Cython',
+           'Topic :: Scientific/Engineering :: Mathematics',
+      ],
       author = 'Matthias Goerner',
       author_email = 'enischte@gmail.com',
       url = 'http://sageRegina.unhyperbolic.org/',
