@@ -9,8 +9,8 @@
 # Run "python setup.py package" and it will automatically download all the
 # necessary sources and create a tar ball suitable for pip.
 #
-# We can upload with "twine register -r pypi sageRegina-...tar.gz"
-# and "twine upload ..."
+# We can upload with "twine upload -r pypi sageRegina-...tar.gz"
+# (Note that "twince register ..." is no longer necessary nor supported).
 #
 # TODO: extras/regina/engine/regina-config.h still needs to be updated
 # manually to reflect REGINA/SNAPPY version.
@@ -443,17 +443,20 @@ setup(name = 'sageRegina',
       license='GPLv2+',
       packages = [
           'regina',
+          'regina/pyCensus',
           'regina/sageRegina',
           'regina/sageRegina/testsuite' ],
       package_dir = {
           # For the __init__.py file from regina which imports
           # regina.engine
           'regina' : regina_dir + '/python/regina',
+          'regina/pyCensus' : regina_dir + '/python/regina/pyCensus',
           'regina/sageRegina' : 'extras/sageRegina',
           'regina/sageRegina/testsuite' : regina_dir + '/python/testsuite'
       },
       package_data = {
-          'regina/sageRegina/testsuite' : ['*.*']
+          'regina/sageRegina/testsuite' : ['*.*'],
+          'regina/pyCensus' : ['*.tdb']
       },
       ext_modules = [ regina_extension ],
       libraries = libraries,
