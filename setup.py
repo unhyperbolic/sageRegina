@@ -227,6 +227,9 @@ def my_build_libraries(self, libraries):
 
 build_clib.build_clib.build_libraries = my_build_libraries
 
+import setuptools.command.build_clib
+setuptools.command.build_clib.build_clib.build_libraries = my_build_libraries
+
 class SystemCommand(Command):
     user_options = []
     def initialize_options(self):
