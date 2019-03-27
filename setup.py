@@ -378,6 +378,7 @@ class package_tar(SystemCommand):
          '--exclude "dist" '
          '--exclude "build" '
          '--exclude "*.egg-info" '
+         '--exclude "boost*/*/*/doc" '
          '.') % (version_name, transform_op, version_name)
         ]
 
@@ -433,7 +434,8 @@ setup(name = 'sageRegina',
            'Development Status :: 5 - Production/Stable',
            'Intended Audience :: Science/Research',
            'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
-           'Operating System :: Linux, MacOS X',
+           'Operating System :: POSIX :: Linux',
+           'Operating System :: MacOS :: MacOS X',
            'Programming Language :: C',
            'Programming Language :: C++', 
            'Programming Language :: Python',
