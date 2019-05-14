@@ -197,10 +197,10 @@ def my_build_libraries(self, libraries):
     for (lib_name, build_info) in libraries:
         sources = build_info.get('sources')
         if sources is None or not isinstance(sources, (list, tuple)):
-            raise DistutilsSetupError, \
+            raise DistutilsSetupError(
                 ("in 'libraries' option (library '%s'), " +
                  "'sources' must be present and must be " +
-                 "a list of source filenames") % lib_name
+                 "a list of source filenames") % lib_name)
         sources = list(sources)
 
         log.info("building '%s' library", lib_name)
