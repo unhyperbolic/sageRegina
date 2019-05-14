@@ -1,5 +1,5 @@
-boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_59_0.tar.bz2'
-boost_dir         = 'boost_1_59_0'
+boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_61_0_python_iostreams.tar.bz2'
+boost_dir         = 'boost_1_61_0'
 tokyocabinet_uri  = 'http://sageRegina.unhyperbolic.org/sources/tokyocabinet-1.4.48.tar.gz'
 tokyocabinet_dir  = 'tokyocabinet-1.4.48'
 libxml_uri        = 'http://sageRegina.unhyperbolic.org/sources/libxml2-2.9.3.tar.gz'

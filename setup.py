@@ -66,7 +66,8 @@ boost_python_library = {
     # Needs Python.h, so we need to add the python include dir.
     # Extension's do this automatically, but build_clib does not -
     # should this be fixed in distutils?
-    'include_dirs' : [ boost_dir, sysconfig.get_python_inc() ]
+    'include_dirs' : [ boost_dir, sysconfig.get_python_inc() ],
+    'extra_compile_args' : ['-fpermissive']
 }
 
 boost_regex_library = {

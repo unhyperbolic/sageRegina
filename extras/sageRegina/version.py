@@ -1,3 +1,3 @@
-version = '5.1.5'
-release_date = 'March 25, 2018'
+version = '5.1.6'
+release_date = 'May 14, 2019'
 
