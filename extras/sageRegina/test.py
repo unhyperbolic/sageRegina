@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 #__all__ = ['runTests']
 
 from .. import __dict__ as reginaDict
@@ -86,21 +88,22 @@ def runTests():
     failedTests = []
     
     for testName, testFile in findTests():
-        print "Running test %s:" % (testName + (20 - len(testName)) * " "),
+        print("Running test %s:" % (testName + (20 - len(testName)) * " "),
+              end = ' ')
         sys.stdout.flush()
 
         failureOutput = runTest(testName, testFile)
 
         if failureOutput:
             failedTests.append(testName)
-            print "FAILED!!!"
-            print failureOutput
+            print("FAILED!!!")
+            print(failureOutput)
         else:
-            print "ok"
+            print("ok")
     
     if failedTests:
-        print "The following %d test(s) failed: %s" % (
-            len(failedTests), ', '.join(failedTests))
+        print("The following %d test(s) failed: %s" % (
+                len(failedTests), ', '.join(failedTests)))
     else:
-        print "All tests passed"
+        print("All tests passed")
 
