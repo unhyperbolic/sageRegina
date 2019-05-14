@@ -8,7 +8,12 @@ import sys
 import os
 import glob
 import difflib
-from StringIO import StringIO
+try:
+    # Python 3
+    from io import StringIO
+except:
+    # Python 2
+    from StringIO import StringIO
 
 base_path = os.path.split(__file__)[0]
 testsuite_path = os.path.join(base_path, 'testsuite')
