@@ -41,7 +41,7 @@ def runSource(source):
 
         exception = None
         try:
-            exec(source) in globs
+            exec(source, globs)
         except:
             exception = sys.exc_info()
 
