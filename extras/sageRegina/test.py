@@ -8,6 +8,7 @@ import sys
 import os
 import glob
 import difflib
+import traceback
 try:
     # Python 3
     from io import StringIO
@@ -39,18 +40,18 @@ def runSource(source):
         reginaWrapper.__dict__ = reginaDict.copy()
         globs['regina'] = reginaWrapper
 
-        exception = None
+        exception_info = None
         try:
             exec(source, globs)
         except:
-            exception = sys.exc_info()
+            exception_info = sys.exc_info()
 
     finally:
         sys.stdout = original_stdout
         sys.displayhook = original_displayhook
         sys.argv = original_argv
 
-    return fakeout.getvalue(), exception
+    return fakeout.getvalue(), exception_info
 
 def runFile(path):
     return runSource(open(path).read())
@@ -64,7 +65,7 @@ def findTests():
 def runTest(testName, testFile):
     failed = ""
     
-    output, exception = runFile(testFile)
+    output, exception_info = runFile(testFile)
 
     baseline = open(testFile.replace('.test', '.out')).read()
 
@@ -84,8 +85,12 @@ def runTest(testName, testFile):
                 fromfile = os.path.basename(testFile),
                 tofile = 'OUTPUT'))
 
-    if exception:
-        failed += "Raised exception: %s" % (exception,)
+    if exception_info:
+        exception_type, exception, traceback_object = (
+            exception_info)
+        failed += "Raised exception: %s\n" % exception_type
+        failed += "Exception detail: %s\n" % exception
+        failed += "Trace:\n %s\n" % traceback.format_tb(traceback_object)
 
     return failed
 
