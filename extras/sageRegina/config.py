@@ -5,6 +5,6 @@ tokyocabinet_dir  = 'tokyocabinet-1.4.48'
 libxml_uri        = 'http://sageRegina.unhyperbolic.org/sources/libxml2-2.9.3.tar.gz'
 libxml_dir        = 'libxml2-2.9.3'
 
-regina_hash      = 'e4ee1fe'
+regina_hash      = '37a1cd7'
 regina_uri       = 'https://github.com/regina-normal/regina.git'
 regina_dir       = 'regina_%s' % regina_hash

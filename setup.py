@@ -172,7 +172,7 @@ regina_extension = Extension(
             regina_dir + '/python'
         ] + library_include_dirs(libraries),
     language = 'c++',
-    extra_compile_args=['-fpermissive', '-std=c++11'],
+    extra_compile_args=['-fpermissive', '-std=c++14'],
     libraries = ['gmp','gmpxx','m'],
 
     # Adding bz2 to the libraries gives a command like 
