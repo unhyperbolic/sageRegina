@@ -144,12 +144,13 @@ def regina_predicate(file_path):
         file_name_base, ext = os.path.splitext(file_name)
         
         return file_name_base in [
-            'HilbertSeries',
-            'bottom',
-            'cone_property',
-            'libnormaliz-templated',
-            'offload_handler'
-             ]
+            'cone_and_control',
+            'enumeration',
+            'linear_algebra',
+            'offload_handler',
+            'other_algorithms',
+            'output',
+            'primal' ]
 
     return True
 
