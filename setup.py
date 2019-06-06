@@ -323,7 +323,7 @@ class package_retrieve_libxml(CompoundCommand):
 class package_retrieve_regina(CompoundCommand):
     commands = [
         'package_clone_regina',
-        'package_checkout_regina'
+        'package_checkout_regina',
         'package_patch_regina'
         ]
 
