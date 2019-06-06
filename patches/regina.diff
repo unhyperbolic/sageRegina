@@ -1,0 +1,22 @@
+diff --git a/python/regina/__init__.py b/python/regina/__init__.py
+index b61182d44..efc890f97 100644
+--- a/python/regina/__init__.py
++++ b/python/regina/__init__.py
+@@ -69,6 +69,17 @@ else:
+ from . import purePyMethods
+ del purePyMethods
+ 
++# In sageRegina, the census files are supplied differently.
++# Set the location here.
++try:
++    from .pyCensus import __path__ as _pyCensusPath
++    GlobalDirs.setDirs(
++        GlobalDirs.home(),
++        GlobalDirs.pythonModule(),
++        _pyCensusPath[0])
++except ImportError:
++    pass
++
+ def reginaSetup(quiet = False, readline = True, banner = False,
+                 snappyPath = True, namespace = None, builtinOpen = True):
+     """

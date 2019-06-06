@@ -293,9 +293,14 @@ class package_fetch_regina(SystemCommand):
 class package_checkout_regina(SystemCommand):
     system_commands = [
         'mv regina_* regina_0000000',
+        'cd regina_0000000; git reset --hard',
         'cd regina_0000000; git checkout %s' % regina_hash,
         'mv regina_0000000 %s' % regina_dir
         ]
+
+class package_patch_regina(SystemCommand):
+    system_commands = [
+        'cd regina_*; git apply ../patches/regina.diff']
 
 class package_retrieve_boost(CompoundCommand):
     commands = [
@@ -319,6 +324,7 @@ class package_retrieve_regina(CompoundCommand):
     commands = [
         'package_clone_regina',
         'package_checkout_regina'
+        'package_patch_regina'
         ]
 
 class package_retrieve(CompoundCommand):
@@ -401,6 +407,7 @@ cmdclass = {
     'package_clone_regina' : package_clone_regina,
     'package_fetch_regina' : package_fetch_regina,
     'package_checkout_regina' : package_checkout_regina,
+    'package_patch_regina' : package_patch_regina,
     'package_retrieve_boost': package_retrieve_boost,
     'package_retrieve_tokyocabinet': package_retrieve_tokyocabinet,
     'package_retrieve_libxml': package_retrieve_libxml,
