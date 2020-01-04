@@ -59,6 +59,12 @@ def recursive_glob(path, extension, depth = 0, predicate = None):
 
     return result
 
+try:
+    import numpy
+    numpy_include_paths = [ numpy.get_include() ]
+except:
+    numpy_include_paths = [ ]
+
 boost_python_library = {
     'language' : 'c++',
     'sources' : recursive_glob(
@@ -66,7 +72,7 @@ boost_python_library = {
     # Needs Python.h, so we need to add the python include dir.
     # Extension's do this automatically, but build_clib does not -
     # should this be fixed in distutils?
-    'include_dirs' : [ boost_dir, sysconfig.get_python_inc() ],
+    'include_dirs' : [ boost_dir, sysconfig.get_python_inc() ] + numpy_include_paths,
     'extra_compile_args' : ['-fpermissive']
 }
 
