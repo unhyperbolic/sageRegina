@@ -1,14 +1,14 @@
-# Boost stripped to python and iostreams
+# Boost stripped to python, iostreams and smart_ptr
 #
 # It was created by downloading boost, running
 #    ./bootstrap.sh
 #    ./bjam tools/bcp
 #    mkdir /tmp/boost_1_68_0
-#    dist/bin/bcp python iostreams /tmp/boost_1_68_0
+#    dist/bin/bcp python iostreams smart_ptr /tmp/boost_1_68_0
 #    cd /tmp
-#    COPYFILE_DISABLE=1 tar -cjf boost_1_68_python_iostreams.tar.bz2 boost_1_68_0
+#    COPYFILE_DISABLE=1 tar -cjf boost_1_68_0__python__iostreams__smart_ptr.tar.bz2 boost_1_68_0
 
-boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_68_0_python_iostreams.tar.bz2'
+boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_68_0__python__iostreams__smart_ptr.tar.bz2'
 boost_dir         = 'boost_1_68_0'
 
 tokyocabinet_uri  = 'http://sageRegina.unhyperbolic.org/sources/tokyocabinet-1.4.48.tar.gz'
