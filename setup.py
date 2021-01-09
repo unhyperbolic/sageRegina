@@ -132,6 +132,11 @@ def regina_predicate(file_path):
             'output',
             'primal' ]
 
+    return True
+
+def regina_python_predicate(file_path):
+    library_path, file_name = os.path.split(file_path)
+
     if file_name == 'registerIntFromPyIndex.cpp':
         return False
 
@@ -150,7 +155,8 @@ regina_extension = Extension(
         # Needed to be renamed .cpp for it to work
 #        recursive_glob(regina_dir + '/engine/snappea/kernel', 'cpp') +
 #        recursive_glob(regina_dir + '/engine/snappea/snappy', 'cpp') +
-        recursive_glob(regina_dir + '/python', 'cpp', depth = 1)),
+        recursive_glob(regina_dir + '/python', 'cpp', depth = 1,
+                       predicate = regina_python_predicate)),
     include_dirs = [
             regina_dir + '/engine',
             regina_dir + '/python'
