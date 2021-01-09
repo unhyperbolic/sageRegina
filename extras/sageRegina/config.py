@@ -4,9 +4,9 @@
 #    ./bootstrap.sh
 #    ./b2 tools/bcp
 #    mkdir /tmp/boost_1_75_0
-#    dist/bin/bcp iostreams regex smart_ptr graph /tmp/boost_1_75_0
+#    dist/bin/bcp smart_ptr graph /tmp/boost_1_75_0
 #    cd /tmp
-#    COPYFILE_DISABLE=1 tar -cjf boost_1_75_0__regina_deps.tar.bz2 boost_1_75_0
+#    COPYFILE_DISABLE=1 tar -cjf boost_1_75_0__graph.tar.bz2 boost_1_75_0
 
 
 boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_75_0__regina_deps.tar.bz2'
