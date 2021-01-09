@@ -6,10 +6,10 @@
 #    mkdir /tmp/boost_1_75_0
 #    dist/bin/bcp smart_ptr graph /tmp/boost_1_75_0
 #    cd /tmp
-#    COPYFILE_DISABLE=1 tar -cjf boost_1_75_0__graph.tar.bz2 boost_1_75_0
+#    COPYFILE_DISABLE=1 tar -cjf boost_1_75_0_for_regina.tar.bz2 boost_1_75_0
 
 
-boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_75_0__regina_deps.tar.bz2'
+boost_uri         = 'http://sageRegina.unhyperbolic.org/sources/boost_1_75_0_for_regina.tar.bz2'
 boost_dir         = 'boost_1_75_0'
 
 tokyocabinet_uri  = 'http://sageRegina.unhyperbolic.org/sources/tokyocabinet-1.4.48.tar.gz'
