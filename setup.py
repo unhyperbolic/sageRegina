@@ -65,22 +65,6 @@ try:
 except:
     numpy_include_paths = [ ]
 
-boost_regex_library = {
-    'language' : 'c++',
-    'sources' : recursive_glob(boost_dir + '/libs/regex/src', 'cpp'),
-    'include_dirs' : [ boost_dir]
-}
-
-def boost_iostream_predicate(file_path):
-    return not ('zstd' in file_path)
-
-boost_iostreams_library = {
-    'language' : 'c++',
-    'sources' : recursive_glob(boost_dir + '/libs/iostreams/src', 'cpp',
-                               predicate = boost_iostream_predicate),
-    'include_dirs' : [ boost_dir]
-}
-
 def tokyocabinet_predicate(file_path):
     files_with_main = ['tcucodec.c', 'test.c']
 
@@ -116,8 +100,6 @@ libxml_library = {
 }
 
 libraries = [
-    ('boost_regex_regina', boost_regex_library),
-    ('boost_iostreams_regina', boost_iostreams_library),
     ('tokyocabinet_regina', tokyocabinet_library),
     ('libxml_regina', libxml_library)
 ]
@@ -149,6 +131,9 @@ def regina_predicate(file_path):
             'other_algorithms',
             'output',
             'primal' ]
+
+    if file_name == 'registerIntFromPyIndex.cpp':
+        return False
 
     return True
 
