@@ -65,26 +65,19 @@ try:
 except:
     numpy_include_paths = [ ]
 
-boost_python_library = {
-    'language' : 'c++',
-    'sources' : recursive_glob(
-        boost_dir + '/libs/python/src', 'cpp', depth = 1),
-    # Needs Python.h, so we need to add the python include dir.
-    # Extension's do this automatically, but build_clib does not -
-    # should this be fixed in distutils?
-    'include_dirs' : [ boost_dir, sysconfig.get_python_inc() ] + numpy_include_paths,
-    'extra_compile_args' : ['-fpermissive']
-}
-
 boost_regex_library = {
     'language' : 'c++',
     'sources' : recursive_glob(boost_dir + '/libs/regex/src', 'cpp'),
     'include_dirs' : [ boost_dir]
 }
 
+def boost_iostream_predicate(file_path):
+    return not ('zstd' in file_path)
+
 boost_iostreams_library = {
     'language' : 'c++',
-    'sources' : recursive_glob(boost_dir + '/libs/iostreams/src', 'cpp'),
+    'sources' : recursive_glob(boost_dir + '/libs/iostreams/src', 'cpp',
+                               predicate = boost_iostream_predicate),
     'include_dirs' : [ boost_dir]
 }
 
@@ -123,7 +116,6 @@ libxml_library = {
 }
 
 libraries = [
-    ('boost_python_regina', boost_python_library),
     ('boost_regex_regina', boost_regex_library),
     ('boost_iostreams_regina', boost_iostreams_library),
     ('tokyocabinet_regina', tokyocabinet_library),
