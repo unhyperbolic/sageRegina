@@ -158,6 +158,7 @@ regina_extension = Extension(
         recursive_glob(regina_dir + '/python', 'cpp', depth = 1,
                        predicate = regina_python_predicate)),
     include_dirs = [
+            boost_dir,
             regina_dir + '/engine',
             regina_dir + '/python'
         ] + library_include_dirs(libraries),

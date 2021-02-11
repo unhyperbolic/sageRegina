@@ -57,9 +57,7 @@ diff --git a/python/regina/__init__.py b/python/regina/__init__.py
 index 272c4b8d3..6e9c5dc9f 100644
 --- a/python/regina/__init__.py
 +++ b/python/regina/__init__.py
-@@ -69,6 +69,17 @@ else:
- from . import purePyMethods
- del purePyMethods
+@@ -69,4 +69,15 @@ else:
  
 +# In sageRegina, the census files are supplied differently.
 +# Set the location here.
