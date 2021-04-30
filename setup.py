@@ -155,7 +155,6 @@ regina_extension = Extension(
         recursive_glob(regina_dir + '/python', 'cpp', depth = 1,
                        predicate = regina_python_predicate)),
     include_dirs = [
-            boost_dir,
             regina_dir + '/engine',
             regina_dir + '/python'
         ] + library_include_dirs(libraries),
@@ -173,7 +172,7 @@ regina_extension = Extension(
     #
     # We achieve the right order by adding it to extra_link_args
     # instead.
-    extra_link_args = ['-lbz2','-lz'])
+    extra_link_args = ['-lz'])
 
 
 # Monkey patch build_clib.build_libraries so that it takes extra_compile_args
@@ -240,9 +239,6 @@ class CompoundCommand(Command):
         for cmd in self.commands:
             self.run_command(cmd)
 
-class package_download_boost(SystemCommand):
-    system_commands = ['cd /tmp; curl -O %s' % boost_uri]
-
 class package_download_tokyocabinet(SystemCommand):
     system_commands = ['cd /tmp; curl -O %s' % tokyocabinet_uri]
 
@@ -251,13 +247,9 @@ class package_download_libxml(SystemCommand):
     
 class package_download(CompoundCommand):
     commands = [
-        'package_download_boost',
         'package_download_tokyocabinet',
         'package_download_libxml'
         ]
-
-class package_untar_boost(SystemCommand):
-    system_commands = ['tar -xjf /tmp/%s' % boost_uri.split('/')[-1]]
 
 class package_untar_tokyocabinet(SystemCommand):
     system_commands = ['tar -xzf /tmp/%s' % tokyocabinet_uri.split('/')[-1]]
@@ -267,7 +259,6 @@ class package_untar_libxml(SystemCommand):
 
 class package_untar(CompoundCommand):
     commands = [
-        'package_untar_boost',
         'package_untar_tokyocabinet',
         'package_untar_libxml'
         ]
@@ -290,12 +281,6 @@ class package_patch_regina(SystemCommand):
     system_commands = [
         'cd regina_*; git apply ../patches/regina.diff']
 
-class package_retrieve_boost(CompoundCommand):
-    commands = [
-        'package_download_boost',
-        'package_untar_boost'
-        ]
-
 class package_retrieve_tokyocabinet(CompoundCommand):
     commands = [
         'package_download_tokyocabinet',
@@ -317,7 +302,6 @@ class package_retrieve_regina(CompoundCommand):
 
 class package_retrieve(CompoundCommand):
     commands = [
-        'package_retrieve_boost',
         'package_retrieve_tokyocabinet',
         'package_retrieve_libxml',
         'package_retrieve_regina'
@@ -373,7 +357,6 @@ class package_tar(SystemCommand):
          '--exclude "dist" '
          '--exclude "build" '
          '--exclude "*.egg-info" '
-         '--exclude "boost*/*/*/doc" '
          '.') % (version_name, transform_op, version_name)
         ]
 
@@ -384,11 +367,9 @@ class package(CompoundCommand):
         ]
 
 cmdclass = {
-    'package_download_boost' : package_download_boost,
     'package_download_tokyocabinet' : package_download_tokyocabinet,
     'package_download_libxml' : package_download_libxml,
     'package_download' : package_download,
-    'package_untar_boost' : package_untar_boost,
     'package_untar_tokyocabinet' : package_untar_tokyocabinet,
     'package_untar_libxml' : package_untar_libxml,
     'package_untar' : package_untar,
@@ -396,7 +377,6 @@ cmdclass = {
     'package_fetch_regina' : package_fetch_regina,
     'package_checkout_regina' : package_checkout_regina,
     'package_patch_regina' : package_patch_regina,
-    'package_retrieve_boost': package_retrieve_boost,
     'package_retrieve_tokyocabinet': package_retrieve_tokyocabinet,
     'package_retrieve_libxml': package_retrieve_libxml,
     'package_retrieve_regina': package_retrieve_regina,
