@@ -62,3 +62,6 @@
 /* Define to the version of SnapPy that is bundled with Regina. */
 #define SNAPPY_VERSION "2.4"
 
+/* Define if we implement key-value stores using Tokyo Cabinet.
+   Exactly one of these REGINA_KVSTORE_* macros should be defined. */
+#define REGINA_KVSTORE_TOKYOCABINET

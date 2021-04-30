@@ -113,6 +113,10 @@ def regina_predicate(file_path):
         # Excluding it so that we don't need to pull in jansson
         return False
 
+    if 'data/' in file_path:
+        # Do not compile stuff in data
+        return False
+
     if library_name == 'unused':
         return False
 
@@ -123,14 +127,7 @@ def regina_predicate(file_path):
 
         file_name_base, ext = os.path.splitext(file_name)
         
-        return file_name_base in [
-            'cone_and_control',
-            'enumeration',
-            'linear_algebra',
-            'offload_handler',
-            'other_algorithms',
-            'output',
-            'primal' ]
+        return not ('nmz_' in file_name_base)
 
     return True
 
@@ -163,7 +160,7 @@ regina_extension = Extension(
             regina_dir + '/python'
         ] + library_include_dirs(libraries),
     language = 'c++',
-    extra_compile_args=['-fpermissive', '-std=c++14'],
+    extra_compile_args=['-fpermissive', '-std=c++17'],
     libraries = ['gmp','gmpxx','m'],
 
     # Adding bz2 to the libraries gives a command like 
