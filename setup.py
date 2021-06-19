@@ -72,12 +72,18 @@ def tokyocabinet_predicate(file_path):
 
     return not (file_name in files_with_main)
 
+platform_extra_compile_args = []
+platform_extra_link_args = []
+if sys.platform == 'darwin':
+    platform_extra_compile_args = ['-mmacosx-version-min=10.9']
+    platform_extra_link_args = ['-liconv']
+
 tokyocabinet_library = {
     'language' : 'c',
     'sources' : recursive_glob(tokyocabinet_dir, 'c',
                                predicate = tokyocabinet_predicate),
     'include_dirs' : [ tokyocabinet_dir ],
-    'extra_compile_args' : [ '-std=gnu99' ]
+    'extra_compile_args' : [ '-std=gnu99' ] + platform_extra_compile_args
 }
 
 def libxml_predicate(file_path):
@@ -96,7 +102,7 @@ libxml_library = {
     'include_dirs' : [ libxml_dir + '/include' ],
     # Not exactly sure what is going on with that THREAD_ENABLED, but
     # it didn't seem to build without
-    'extra_compile_args' : ['-std=gnu99', '-DLIBXML_THREAD_ENABLED=1']
+    'extra_compile_args' : ['-std=gnu99', '-DLIBXML_THREAD_ENABLED=1'] + platform_extra_compile_args
 }
 
 libraries = [
@@ -159,7 +165,7 @@ regina_extension = Extension(
             regina_dir + '/python'
         ] + library_include_dirs(libraries),
     language = 'c++',
-    extra_compile_args=['-fpermissive', '-std=c++17'],
+    extra_compile_args=['-fpermissive', '-std=c++17']  + platform_extra_compile_args,
     libraries = ['gmp','gmpxx','m'],
 
     # Adding bz2 to the libraries gives a command like 
@@ -172,7 +178,7 @@ regina_extension = Extension(
     #
     # We achieve the right order by adding it to extra_link_args
     # instead.
-    extra_link_args = ['-lz'])
+    extra_link_args = ['-lz'] + platform_extra_link_args)
 
 
 # Monkey patch build_clib.build_libraries so that it takes extra_compile_args
